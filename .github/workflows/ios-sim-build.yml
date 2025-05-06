@@ -34,8 +34,8 @@ jobs:
       - name: Build for iOS Simulator
         run: |
           xcodebuild \
-            -workspace ios/YourApp.xcworkspace \
-            -scheme YourApp \
+            -workspace ios/gomatodo.xcworkspace \
+            -scheme gomatodo \
             -configuration Debug \
             -destination 'generic/platform=iOS Simulator' \
             -derivedDataPath ios_build
@@ -43,8 +43,8 @@ jobs:
       - name: Zip .app
         run: |
           cd ios_build/Build/Products/Debug-iphonesimulator
-          zip -r YourApp.zip YourApp.app
-          mv YourApp.zip $GITHUB_WORKSPACE
+          zip -r gomatodo.zip gomatodo.app
+          mv gomatodo.zip $GITHUB_WORKSPACE
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
