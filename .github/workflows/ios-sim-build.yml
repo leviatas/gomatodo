@@ -47,7 +47,7 @@ jobs:
           mv YourApp.zip $GITHUB_WORKSPACE
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ios-appetize
           path: gomatodo.zip
