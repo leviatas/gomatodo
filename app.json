@@ -13,8 +13,7 @@
       "bundleIdentifier": "com.leviatas.gomatodo",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      },
-      "deploymentTarget": "12.0"
+      }
     },
     "android": {
       "adaptiveIcon": {
