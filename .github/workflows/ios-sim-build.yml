@@ -26,28 +26,11 @@ jobs:
       - name: Prebuild iOS project
         run: npx expo prebuild --platform ios
 
-      - name: Install CocoaPods
-        run: |
-          cd ios
-          pod install
+      - name: Build iOS app
+        run: eas build --platform ios --local --non-interactive --output ${{ github.workspace }}/app-release.ipa
 
-      - name: Build for iOS Simulator
-        run: |
-          xcodebuild \
-            -workspace ios/gomatodo.xcworkspace \
-            -scheme gomatodo \
-            -configuration Debug \
-            -destination 'generic/platform=iOS Simulator' \
-            -derivedDataPath ios_build
-
-      - name: Zip .app
-        run: |
-          cd ios_build/Build/Products/Debug-iphonesimulator
-          zip -r gomatodo.zip gomatodo.app
-          mv gomatodo.zip $GITHUB_WORKSPACE
-
-      - name: Upload artifact
+      - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ios-appetize
-          path: gomatodo.zip
+          name: app-release
+          path: ${{ github.workspace }}/app-release.ipa
