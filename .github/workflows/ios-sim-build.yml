@@ -23,42 +23,28 @@ jobs:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-          
+
       - name: Install dependencies
         run: npm ci
 
       - name: Install Expo CLI
         run: npm install -g expo-cli
 
-      - name: Install CocoaPods
-        run: sudo gem install cocoapods
-
       - name: Prebuild iOS project
-        run: npx expo prebuild --platform ios --no-install
+        run: npx expo prebuild --platform ios
 
-      - name: Install iOS native dependencies
+      - name: Build iOS app
         run: |
-          cd ios
-          pod install
+          mkdir -p build
+          eas build --platform ios --local --profile simulator --output build/app.app
 
-      - name: Build .app for simulator
+      - name: Zip the .app bundle
         run: |
-          xcodebuild \
-            -workspace ios/*.xcworkspace \
-            -scheme $(xcodebuild -list -workspace ios/*.xcworkspace | awk '/Schemes:/,/^\s*$/' | tail -n +2 | head -1 | xargs) \
-            -configuration Debug \
-            -sdk iphonesimulator \
-            -derivedDataPath build
-
-      - name: Zip the .app
-        run: |
-          APP_PATH=$(find build/Build/Products/Debug-iphonesimulator -name "*.app" | head -1)
-          echo "App path: $APP_PATH"
-          cd $(dirname "$APP_PATH")
-          zip -r $GITHUB_WORKSPACE/app.zip $(basename "$APP_PATH")
+          cd build
+          zip -r app.zip app.app
 
       - name: Upload Appetize Artifact
         uses: actions/upload-artifact@v4
         with:
           name: appetize-ios-simulator
-          path: app.zip
+          path: build/app.zip
