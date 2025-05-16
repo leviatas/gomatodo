@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-ios-sim:
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -40,4 +40,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: ${{ github.workspace }}/app-release.ipa
+          path: ${{ github.workspace }}/app-release.app
