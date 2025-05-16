@@ -34,10 +34,17 @@ jobs:
         run: npx expo prebuild --platform ios
 
       - name: Build iOS app
-        run: eas build --platform ios --local --profile simulator --output ${{ github.workspace }}/app-release.app       
-
-      - name: Upload IPA artifact
+        run: |
+          mkdir -p build
+          eas build --platform ios --local --profile simulator --output build/app.app     
+      
+      - name: Zip the .app bundle
+        run: |
+          cd build
+          zip -r app.zip app.app
+          
+      - name: Upload Appetize Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: app-release
-          path: ${{ github.workspace }}/app-release.app
+          name: appetize-ios-simulator
+          path: build/app.zip
