@@ -2,7 +2,7 @@ name: Build iOS Simulator App for Appetize
 
 on:
   push:
-    branches: [master]
+    branches: [develop]
   workflow_dispatch:
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
           expo-version: latest
           eas-version: latest
           token: ${{ secrets.EXPO_TOKEN }}
-          
+
       - name: Install dependencies
         run: npm ci
 
@@ -36,13 +36,13 @@ jobs:
       - name: Build iOS app
         run: |
           mkdir -p build
-          eas build --platform ios --local --profile simulator --output build/app.app     
-      
+          eas build --platform ios --local --profile simulator --output build/app.app
+
       - name: Zip the .app bundle
         run: |
           cd build
           zip -r app.zip app.app
-          
+
       - name: Upload Appetize Artifact
         uses: actions/upload-artifact@v4
         with:

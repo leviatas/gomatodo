@@ -39,3 +39,5 @@ yarn-error.*
 app-example
 # Android build
 android
+# Carpetas visual studio
+.vs/*
